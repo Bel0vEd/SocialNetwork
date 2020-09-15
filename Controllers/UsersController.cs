@@ -44,7 +44,6 @@ namespace SocialNetwork.Controllers
             }
             return View(model);
         }
-        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(string id)
         {
             User user = await _userManager.FindByIdAsync(id);
@@ -55,7 +54,6 @@ namespace SocialNetwork.Controllers
             EditUserViewModel model = new EditUserViewModel { Id = user.Id, FirstName = user.FirstName, SecondName = user.SecondName, Email = user.Email, Year = user.Year };
             return View(model);
         }
-        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
@@ -86,7 +84,6 @@ namespace SocialNetwork.Controllers
             }
             return View(model);
         }
-        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<ActionResult> Delete(string id)
         {

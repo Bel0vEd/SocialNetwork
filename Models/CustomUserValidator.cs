@@ -32,7 +32,7 @@ namespace SocialNetwork.Models
             {
                 errors.Add(new IdentityError
                 {
-                    Description = "Ник пользователя не должен содержать слово 'admin'"
+                    Description = "Email пользователя не должен содержать слово 'admin'"
                 });
             }
             return Task.FromResult(errors.Count == 0 ?

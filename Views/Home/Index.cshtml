@@ -1,17 +1,19 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<SocialNetwork.Models.User>
+@{
+    ViewData["Title"] = "Профиль";
 }
 
 @if (User.Identity.IsAuthenticated)
 {
-    <p>@User.Identity.Name</p>
-
-    <form method="post" asp-controller="Account" asp-action="Logout">
-        <input type="submit" value="Выход" />
-    </form>
+    @foreach (var user in Model)
+    {
+        if (user.Email == User.Identity.Name)
+        {
+            <h1>@user.ProfileLink</h1> 
+        }
+     }
 }
 else
 {
-    <a asp-controller="Account" asp-action="Login">Вход</a>
-    <a asp-controller="Account" asp-action="Register">Регистрация</a>
+
 }
