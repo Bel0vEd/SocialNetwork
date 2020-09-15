@@ -9,6 +9,7 @@ namespace SocialNetwork.Models
     public class User : IdentityUser
     {
         public string FirstName { get; set; }
+        public int ProfileLink { get; set; }
         public string SecondName { get; set; }
         public int Year { get; set; }
     }

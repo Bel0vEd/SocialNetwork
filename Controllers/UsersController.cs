@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Models;
@@ -21,7 +22,7 @@ namespace SocialNetwork.Controllers
         public IActionResult Index() => View(_userManager.Users.ToList());
 
         public IActionResult Create() => View();
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserViewModel model)
         {
@@ -43,7 +44,7 @@ namespace SocialNetwork.Controllers
             }
             return View(model);
         }
-
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(string id)
         {
             User user = await _userManager.FindByIdAsync(id);
@@ -54,7 +55,7 @@ namespace SocialNetwork.Controllers
             EditUserViewModel model = new EditUserViewModel { Id = user.Id, FirstName = user.FirstName, SecondName = user.SecondName, Email = user.Email, Year = user.Year };
             return View(model);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
@@ -85,7 +86,7 @@ namespace SocialNetwork.Controllers
             }
             return View(model);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<ActionResult> Delete(string id)
         {
@@ -106,7 +107,6 @@ namespace SocialNetwork.Controllers
             ChangePasswordViewModel model = new ChangePasswordViewModel { Id = user.Id, Email = user.Email };
             return View(model);
         }
-
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
