@@ -1,17 +1,16 @@
 ﻿@model IEnumerable<SocialNetwork.Models.User>
 @{
-    ViewData["Title"] = "Профиль";
+    ViewData["Title"] = "Главная страница";
 }
-
 @if (User.Identity.IsAuthenticated)
 {
-    @foreach (var user in Model)
+    @*@foreach (var user in Model)
     {
         if (user.Email == User.Identity.Name)
         {
             <h1>@user.ProfileLink</h1> 
         }
-     }
+     }*@
 }
 else
 {

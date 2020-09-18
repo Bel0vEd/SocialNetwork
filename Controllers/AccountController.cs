@@ -31,18 +31,25 @@ namespace CustomIdentityApp.Controllers
             if (ModelState.IsValid)
             {
                 User user = new User { Email = model.Email, UserName = model.Email, Year = model.Year, FirstName = model.FirstName, SecondName = model.SecondName };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                try
                 {
-                    await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
+                    var result = await _userManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
                     {
-                        ModelState.AddModelError(string.Empty, error.Description);
+                        await _signInManager.SignInAsync(user, false);
+                        return RedirectToAction("Index", "Home");
                     }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Данный Email уже занят");
                 }
             }
             return View(model);

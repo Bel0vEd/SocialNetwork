@@ -1,0 +1,17 @@
+﻿@model SocialNetwork.Models.Comment
+@{
+    ViewBag.Title = "Добавление комментария";
+}
+<form asp-action="AddComment" asp-controller="Profile">
+    <div class="form-group">
+        <label asp-for="Title" class="control-label">Заголовок</label>
+        <input type="text" asp-for="Title" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Text" class="control-label">Текст комментария</label>
+        <input type="text" asp-for="Text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Отправить" class="btn btn-default" />
+    </div>
+</form>

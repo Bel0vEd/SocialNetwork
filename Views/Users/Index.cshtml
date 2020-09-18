@@ -12,7 +12,7 @@
     {
         {
             <tr>
-                <td>@user.FirstName</td>
+                <td><a class="text-blue" asp-route-id="@user.ProfileLink" asp-controller="Profile" asp-action="Wall">@user.FirstName</a></td>
                 <td>@user.SecondName</td>
                 <td>@user.Email</td>
                 <td>@user.Year</td>
