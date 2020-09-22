@@ -1,7 +1,13 @@
 ﻿@model SocialNetwork.Models.Comment
-
 @{
     ViewBag.Title = "Стена";
+}
+@foreach (var users in ViewData["Users"] as List<User>)
+{
+    if (users.ProfileLink == Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2)))
+    {
+        <h4>Стена пользователя @users.FirstName @users.SecondName</h4>
+    }
 }
 <form asp-route-ProfileLink="@Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2))" asp-action="AddComment" asp-controller="Profile">
     <div class="form-group">
@@ -17,16 +23,88 @@
     </div>
 </form>
 
-<table class="table">
-    <tr><td>Заголовок</td><td>Текст</td><td>Время</td><td>Отправитель</td><td>Получатель</td></tr>
-    @foreach (var users in ViewData["Users"] as List<User>)
+@foreach (var users in ViewData["Users"] as List<User>)
+{
+    if (users.ProfileLink == Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2)))
     {
-        foreach (var comment in ViewData["Comments"] as List<Comment>)
+        var comment = ViewData["Comments"] as List<Comment>;
+        for (int i = comment.Count-1; i >= 0; i--)
         {
-            if (users.ProfileLink == Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2)) && users.ProfileLink == comment.ProfileLink)
+            if (users.ProfileLink == comment[i].ProfileLink)
             {
-                <tr><td>@comment.Title</td><td>@comment.Text</td><td>@comment.Data</td><td>@comment.ProfileLinkSend</td><td>@comment.ProfileLink</td></tr>
+                <div class="comments">
+                    <ul class="media-list">
+                        <li class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object img-rounded" src="~/def.png" alt="">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <div class="media-heading">
+                                    @if (comment[i].Sender == "")
+                                    {
+                                        <div class="author">Аноним</div>;
+                                    }
+                                    else
+                                    {
+                                        <div class="author">@comment[i].Sender</div>;
+                                    }
+                                    <div class="metadata">
+                                        <span class="date">@comment[i].Data</span>
+                                    </div>
+                                </div>
+                                <div class="title-comments">@comment[i].Title</div>
+                                <div class="media-text text-justify">@comment[i].Text</div>
+                                <div class="footer-comment">
+                                    <span class="comment-reply">
+                                        <a href="#" class="reply">ответить</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             }
         }
+        @*foreach (var comment in ViewData["Comments"] as List<Comment>)
+        {
+            if (users.ProfileLink == comment.ProfileLink)
+            {
+                <div class="comments">
+                    <ul class="media-list">
+                        <li class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object img-rounded" src="avatar1.jpg" alt="">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <div class="media-heading">
+                                    @if (comment.Sender == "")
+                                    {
+                                        <div class="author">Аноним</div>;
+                                    }
+                                    else
+                                    {
+                                        <div class="author">@comment.Sender</div>;
+                                    }
+                                    <div class="metadata">
+                                        <span class="date">@comment.Data</span>
+                                    </div>
+                                </div>
+                                <div class="title-comments">@comment.Title</div>
+                                <div class="media-text text-justify">@comment.Text</div>
+                                <div class="footer-comment">
+                                    <span class="comment-reply">
+                                        <a href="#" class="reply">ответить</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            }
+        }*@
     }
-</table>
+}

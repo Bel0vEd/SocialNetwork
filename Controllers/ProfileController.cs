@@ -27,22 +27,33 @@ namespace SocialNetwork.Controllers
         {
             ViewData["Comments"] = db.Comments.ToList();
             ViewData["Users"] = _userManager.Users.ToList();
+            if (id == null)
+            {
+                foreach (var item in ViewData["Users"] as List<User>)
+                {
+                    if (User.Identity.Name == item.UserName)
+                    {
+                        id = item.ProfileLink.ToString();
+                    }
+                }
+                RouteData.Values.Add("id", id);
+            }
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> AddComment(Comment comment)
         {
-            var sender = 0;
+            var sender = "";
             foreach (var item in db.Users.ToList())
             {
                 if (item.UserName == User.Identity.Name)
-                    sender = item.ProfileLink;
+                    sender = item.FirstName + " " + item.SecondName;
             }
-            comment.ProfileLinkSend = sender;
+            comment.Sender = sender;
             comment.Data = DateTime.Now;
             db.Comments.Add(comment);
             await db.SaveChangesAsync();
-            return RedirectToAction("Wall");
+            return Redirect("Wall/" + comment.ProfileLink);
         }
     }
 }

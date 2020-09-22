@@ -4,15 +4,9 @@
 }
 @if (User.Identity.IsAuthenticated)
 {
-    @*@foreach (var user in Model)
-    {
-        if (user.Email == User.Identity.Name)
-        {
-            <h1>@user.ProfileLink</h1> 
-        }
-     }*@
+    <h1>Вы авторизованы</h1>
 }
 else
 {
-
+    <h1>Вы не авторизованы</h1>
 }
