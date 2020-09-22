@@ -8,7 +8,9 @@ namespace SocialNetwork.Models
     public class Comment
     {
         public int Id { get; set; }
+        public int ParentId { get; set; }
         public int ProfileLink { get; set; }
+        public int SenderProfileLink { get; set; }
         public string Sender { get; set; }
         public string Text { get; set; }
         public string Title { get; set; }

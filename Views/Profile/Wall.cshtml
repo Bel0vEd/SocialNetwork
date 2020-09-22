@@ -16,29 +16,34 @@
     </div>
     <div class="form-group">
         <label asp-for="Text" class="control-label">Текст комментария</label>
-        <input type="text" asp-for="Text" class="form-control" />
+        <input type="text" maxlength="500" asp-for="Text" class="form-control" />
     </div>
     <div class="form-group">
         <input type="submit" value="Отправить" class="btn btn-default" />
     </div>
 </form>
 
-@foreach (var users in ViewData["Users"] as List<User>)
-{
-    if (users.ProfileLink == Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2)))
-    {
-        var comment = ViewData["Comments"] as List<Comment>;
-        for (int i = comment.Count-1; i >= 0; i--)
+<div class="comments">
+    <ul class="media-list">
+        @foreach (var users in ViewData["Users"] as List<User>)
         {
-            if (users.ProfileLink == comment[i].ProfileLink)
+            if (users.ProfileLink == Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2)))
             {
-                <div class="comments">
-                    <ul class="media-list">
+                var comment = ViewData["Comments"] as List<Comment>;
+                for (int i = comment.Count - 1; i >= 0; i--)
+                {
+                    if (users.ProfileLink == comment[i].ProfileLink)
+                    {
                         <li class="media">
                             <div class="media-left">
-                                <a href="#">
-                                    <img class="media-object img-rounded" src="~/def.png" alt="">
-                                </a>
+                                @if (comment[i].SenderProfileLink == 0)
+                                {<img class="media-object img-rounded" src="~/def.png" alt=""> }
+                                else
+                                {
+                                    <a href="/Profile/Wall/@comment[i].SenderProfileLink">
+                                        <img class="media-object img-rounded" src="~/def.png" alt="">
+                                    </a>
+                                }
                             </div>
                             <div class="media-body">
                                 <div class="media-heading">
@@ -58,53 +63,29 @@
                                 <div class="media-text text-justify">@comment[i].Text</div>
                                 <div class="footer-comment">
                                     <span class="comment-reply">
-                                        <a href="#" class="reply">ответить</a>
+                                        <a onmousedown="viewRes(@comment[i].Id)" class="reply">ответить</a>
                                     </span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            }
-        }
-        @*foreach (var comment in ViewData["Comments"] as List<Comment>)
-        {
-            if (users.ProfileLink == comment.ProfileLink)
-            {
-                <div class="comments">
-                    <ul class="media-list">
-                        <li class="media">
-                            <div class="media-left">
-                                <a href="#">
-                                    <img class="media-object img-rounded" src="avatar1.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <div class="media-heading">
-                                    @if (comment.Sender == "")
-                                    {
-                                        <div class="author">Аноним</div>;
-                                    }
-                                    else
-                                    {
-                                        <div class="author">@comment.Sender</div>;
-                                    }
-                                    <div class="metadata">
-                                        <span class="date">@comment.Data</span>
+                                    <div style="display:none" id="responce @comment[i].Id">
+                                        <form asp-route-ParentId="@comment[i].Id" asp-route-ProfileLink="@Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2))" asp-action="AddComment" asp-controller="Profile">
+                                            <div class="form-group">
+                                                <label asp-for="Title" class="control-label">Заголовок</label>
+                                                <input type="text" asp-for="Title" class="form-control" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="Text" class="control-label">Текст комментария</label>
+                                                <input type="text" maxlength="500" asp-for="Text" class="form-control" />
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="submit" value="Отправить" class="btn btn-default" />
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
-                                <div class="title-comments">@comment.Title</div>
-                                <div class="media-text text-justify">@comment.Text</div>
-                                <div class="footer-comment">
-                                    <span class="comment-reply">
-                                        <a href="#" class="reply">ответить</a>
-                                    </span>
-                                </div>
                             </div>
                         </li>
-                    </ul>
-                </div>
+                    }
+                }
             }
-        }*@
-    }
-}
+        }
+    </ul>
+</div>
