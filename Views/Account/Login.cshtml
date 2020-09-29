@@ -1,6 +1,8 @@
 ﻿@model SocialNetwork.ViewModels.LoginViewModel
-
-<h2>Вход в приложение</h2>
+@{
+    ViewBag.Title = "Вход";
+}
+<h2>Введите данные для входа</h2>
 <form method="post" asp-controller="Account" asp-action="Login"
       asp-route-returnUrl="@Model.ReturnUrl">
     <div asp-validation-summary="ModelOnly"></div>

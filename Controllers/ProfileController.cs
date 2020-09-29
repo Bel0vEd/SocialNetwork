@@ -34,7 +34,7 @@ namespace SocialNetwork.Controllers
         //}
         public IActionResult Wall(string id)
         {
-            ViewData["Comments"] = db.Comments.ToList();
+            ViewData["Comments"] = db.Comments.Where(a => a.ProfileLink.ToString().Contains(id)).ToList();
             ViewData["Users"] = _userManager.Users.ToList();
             if (id == null)
             {

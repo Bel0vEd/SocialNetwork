@@ -9,6 +9,7 @@ namespace SocialNetwork.Models
     {
         public int Id { get; set; }
         public int ParentId { get; set; }
+        public string Receiver { get; set; }
         public int ProfileLink { get; set; }
         public int SenderProfileLink { get; set; }
         public string Sender { get; set; }
