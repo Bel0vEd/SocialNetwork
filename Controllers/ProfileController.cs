@@ -23,15 +23,7 @@ namespace SocialNetwork.Controllers
         {
             return View(db.Comments.ToList());
         }
-        //[HttpPost]
-        //public ActionResult CommentSearch(string ProfileLink)
-        //{
-        //    var allcomments = db.Comments.Where(a => a.ProfileLink.ToString().Contains(ProfileLink)).ToList();
-        //    if (allcomments.Count <= 0)
-        //    {
-        //    }
-        //    return PartialView(allcomments);
-        //}
+        
         public IActionResult Wall(string id)
         {
             ViewData["Comments"] = db.Comments.Where(a => a.ProfileLink.ToString().Contains(id)).ToList();

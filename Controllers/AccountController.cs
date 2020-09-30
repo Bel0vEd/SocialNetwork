@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Models;
 using SocialNetwork.ViewModels;
 
@@ -28,9 +29,15 @@ namespace CustomIdentityApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            int ProfileLink = 0;
+            foreach (var item in _userManager.Users.ToList())
+            {
+                if(ProfileLink<item.ProfileLink)
+                    ProfileLink = item.ProfileLink;
+            }
             if (ModelState.IsValid)
             {
-                User user = new User { Email = model.Email, UserName = model.Email, Year = model.Year, FirstName = model.FirstName, SecondName = model.SecondName };
+                User user = new User { Email = model.Email, UserName = model.Email, Year = model.Year, FirstName = model.FirstName, SecondName = model.SecondName, ProfileLink = ProfileLink + 1 };
                 try
                 {
                     var result = await _userManager.CreateAsync(user, model.Password);

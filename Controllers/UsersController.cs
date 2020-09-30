@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Models;
@@ -13,13 +16,17 @@ namespace SocialNetwork.Controllers
     public class UsersController : Controller
     {
         UserManager<User> _userManager;
-
-        public UsersController(UserManager<User> userManager)
+        IWebHostEnvironment _appEnvironment;
+        public UsersController(UserManager<User> userManager, IWebHostEnvironment appEnvironment, ApplicationContext context)
         {
             _userManager = userManager;
+            _appEnvironment = appEnvironment;
         }
 
-        public IActionResult Index() => View(_userManager.Users.ToList());
+        public IActionResult Index() 
+        { 
+            return View(_userManager.Users.ToList());
+        }
 
         public IActionResult Create() => View();
         [Authorize(Roles = "admin")]
@@ -51,23 +58,29 @@ namespace SocialNetwork.Controllers
             {
                 return NotFound();
             }
-            EditUserViewModel model = new EditUserViewModel { Id = user.Id, FirstName = user.FirstName, SecondName = user.SecondName, Email = user.Email, Year = user.Year };
+            EditUserViewModel model = new EditUserViewModel { Id = user.Id, FirstName = user.FirstName, SecondName = user.SecondName, Year = user.Year, Avatar = user.Avatar };
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(EditUserViewModel model)
+        public async Task<IActionResult> Edit(EditUserViewModel model, IFormFile uploadedFile)
         {
             if (ModelState.IsValid)
             {
                 User user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
-                    user.Email = model.Email;
+                    if (uploadedFile != null)
+                    {
+                        string path = "/avatars/" + model.Id + ".jpeg";
+                        using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                        {
+                            await uploadedFile.CopyToAsync(fileStream);
+                        }
+                        user.Avatar = path;
+                    }
                     user.FirstName = model.FirstName;
                     user.SecondName = model.SecondName;
-                    user.UserName = model.Email;
                     user.Year = model.Year;
-
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
