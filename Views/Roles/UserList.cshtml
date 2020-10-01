@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<SocialNetwork.Models.User>
 
-<h2>Список пользователей</h2>
-<table class="table">
+<h2 class="white-front">Список пользователей</h2>
+<table class="table white-front">
     @foreach (var user in Model)
     {
         <tr>
             <td>@user.Email</td>
             <td>
-                <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
+                <a class="btn btn-sm btn-success" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
             </td>
         </tr>
     }

@@ -26,7 +26,6 @@ namespace SocialNetwork.Controllers
         
         public IActionResult Wall(string id)
         {
-            ViewData["Comments"] = db.Comments.Where(a => a.ProfileLink.ToString().Contains(id)).ToList();
             ViewData["Users"] = _userManager.Users.ToList();
             if (id == null)
             {
@@ -39,6 +38,7 @@ namespace SocialNetwork.Controllers
                 }
                 RouteData.Values.Add("id", id);
             }
+            ViewData["Comments"] = db.Comments.Where(a => a.ProfileLink.ToString().Contains(id)).ToList();
             return View();
         }
         [HttpPost]

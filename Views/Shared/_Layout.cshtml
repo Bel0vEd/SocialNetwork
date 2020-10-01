@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+<body style="background-color:#4b5d6f">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-secondary border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SocialNetwork</a>
+                <a class="navbar-brand" style="color:white" asp-area="" asp-controller="Home" asp-action="Index">SocialNetwork</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,34 +21,34 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-route-id="" asp-controller="Profile" asp-action="Wall">Профиль</a>
+                                <a class="nav-link text-white" asp-route-id="" asp-controller="Profile" asp-action="Wall">Профиль</a>
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Информация</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Информация</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Все пользователи</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Users" asp-action="Index">Все пользователи</a>
                         </li>
                         @if (User.IsInRole("admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Административная панель</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Roles" asp-action="Index">Административная панель</a>
                             </li>
                         }
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li style="margin-left: auto; margin-right: 0; align-self: center;" class="nav-item">
                                 <form method="post" asp-controller="Account" asp-action="Logout">
-                                    <input type="submit" value="Выход" />
+                                    <input style="color:black" type="submit" value="Выход" />
                                 </form>
                             </li>
                         }
                         else
                         {
                             <li style="margin-left: auto; margin-right: 0; align-self: center;" class="nav-item">
-                                <a asp-controller="Account" asp-action="Login">Вход</a>
-                                <a asp-controller="Account" asp-action="Register">Регистрация</a>
+                                <a class="blue-link" asp-controller="Account" asp-action="Login">Вход</a>
+                                <a class="blue-link" asp-controller="Account" asp-action="Register">Регистрация</a>
                             </li>
                         }
                     </ul>
@@ -63,8 +63,8 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - Bel0vEd - <a asp-area="" asp-controller="Home" asp-action="Privacy">Информация</a>
+        <div style="color:white" class="container">
+            &copy; 2020 - Bel0vEd - <a class="blue-link" asp-area="" asp-controller="Home" asp-action="Privacy">Информация</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

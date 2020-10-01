@@ -2,8 +2,8 @@
 @{
     ViewBag.Title = "Вход";
 }
-<h2>Введите данные для входа</h2>
-<form method="post" asp-controller="Account" asp-action="Login"
+<h2 class="white-front">Введите данные для входа</h2>
+<form class="white-front" method="post" asp-controller="Account" asp-action="Login"
       asp-route-returnUrl="@Model.ReturnUrl">
     <div asp-validation-summary="ModelOnly"></div>
     <div>

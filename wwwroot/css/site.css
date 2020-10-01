@@ -12,6 +12,10 @@ a {
   color: #0366d6;
 }
 
+a:hover {
+    color: #bbfbfb;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
@@ -71,7 +75,7 @@ body {
 .media-body .author {
     display: inline-block;
     font-size: 1rem;
-    color: #000;
+    color: white;
     font-weight: 700;
 }
 
@@ -83,7 +87,7 @@ body {
 }
 
 .footer-comment {
-    color: #777;
+    color: white;
 }
 
 .vote.plus:hover {
@@ -99,11 +103,11 @@ body {
 }
 
 .comment-reply a {
-    color: #777;
+    color: white;
 }
 
 .comment-reply a:hover, .comment-reply a:focus {
-        color: #000;
+        color: white;
         text-decoration: none;
     }
 
@@ -119,8 +123,15 @@ body {
 .title-comments {
     font-weight: bold;
     line-height: 1.5rem;
-    color: #1b6ec2;
+    color: white;
     margin-bottom: 1rem;
     padding-bottom: .25rem;
     border-bottom: 1px solid red;
+}
+
+.white-front{
+    color: white;
+}
+.blue-link {
+    color:#bbfbfb;
 }

@@ -2,27 +2,28 @@
 @{
     ViewBag.Title = "Стена";
 }
-@foreach (var users in ViewData["Users"] as List<User>)
-{
-    if (users.ProfileLink == Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2)))
+<div class="white-front">
+    @foreach (var users in ViewData["Users"] as List<User>)
     {
-        <h4>Стена пользователя @users.FirstName @users.SecondName</h4>
+        if (users.ProfileLink == Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2)))
+        {
+            <h4>Стена пользователя @users.FirstName @users.SecondName</h4>
+        }
     }
-}
-<form asp-route-ProfileLink="@Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2))" asp-action="AddComment" asp-controller="Profile">
-    <div class="form-group">
-        <label asp-for="Title" class="control-label">Заголовок</label>
-        <input type="text" asp-for="Title" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Text" class="control-label">Текст комментария</label>
-        <input type="text" maxlength="500" asp-for="Text" class="form-control" />
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Отправить" class="btn btn-default" />
-    </div>
-</form>
-
+    <form asp-route-ProfileLink="@Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2))" asp-action="AddComment" asp-controller="Profile">
+        <div class="form-group">
+            <label asp-for="Title" class="control-label">Заголовок</label>
+            <input type="text" maxlength="50" asp-for="Title" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Text" class="control-label">Текст комментария</label>
+            <input type="text" maxlength="1000" asp-for="Text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Отправить" class="btn btn-success" />
+        </div>
+    </form>
+</div>
 <div class="comments">
     <ul class="media-list">
         @foreach (var users in ViewData["Users"] as List<User>)
@@ -69,17 +70,17 @@
                                         <div class="author">@comment[i].Sender</div>;
                                     }
                                     <div class="metadata">
-                                        <span class="date">@comment[i].Data</span>
+                                        <span class="date white-front">@comment[i].Data</span>
                                     </div>
                                 </div>
                                 <div class="title-comments">@comment[i].Title</div>
-                                <div class="media-text text-justify">@comment[i].Text</div>
+                                <div class="media-text text-white">@comment[i].Text</div>
                                 <div class="footer-comment">
                                     <span class="comment-reply">
-                                        <a onmousedown="viewRes(@comment[i].Id)" class="reply">ответить</a>
+                                        <a style="cursor:pointer" onmousedown="viewRes(@comment[i].Id)" class="reply btn btn-primary">ответить</a>
                                     </span>
                                     <div style="display:none" id="responce @comment[i].Id">
-                                        <form asp-route-Receiver="@comment[i].Sender" asp-route-ParentId="@comment[i].Id" asp-route-ProfileLink="@Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2))" asp-action="AddComment" asp-controller="Profile">
+                                        <form class="white-front" asp-route-Receiver="@comment[i].Sender" asp-route-ParentId="@comment[i].Id" asp-route-ProfileLink="@Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2))" asp-action="AddComment" asp-controller="Profile">
                                             <div class="form-group">
                                                 <label asp-for="Title" class="control-label">Заголовок</label>
                                                 <input type="text" asp-for="Title" class="form-control" />
@@ -89,7 +90,7 @@
                                                 <input type="text" maxlength="500" asp-for="Text" class="form-control" />
                                             </div>
                                             <div class="form-group">
-                                                <input type="submit" value="Отправить" class="btn btn-default" />
+                                                <input type="submit" value="Отправить" class="btn btn-success" />
                                             </div>
                                         </form>
                                     </div>
@@ -132,16 +133,23 @@
                                                     {
                                                         <div class="author">@replycomment.Sender</div>;
                                                     }
-                                                    <div class="metadata">
-                                                        <span class="date">Ответ для @replycomment.Receiver</span>
-                                                        <span class="date">@replycomment.Data</span>
-                                                    </div>
+                                                <div class="metadata">
+                                                    @if (replycomment.Receiver != null)
+                                                    {
+                                                        <span class="date white-front">Ответ для @replycomment.Receiver</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="date white-front">Ответ для Анонима</span>
+                                                    }
+                                                    <span class="date white-front">@replycomment.Data</span>
+                                                </div>
                                                 </div>
                                                 <div class="title-comments">@replycomment.Title</div>
-                                                <div class="media-text text-justify">@replycomment.Text</div>
+                                                <div class="media-text text-white">@replycomment.Text</div>
                                                 <div class="footer-comment">
                                                     <span class="comment-reply">
-                                                        <a onmousedown="viewRes(@replycomment.Id)" class="reply">ответить</a>
+                                                        <a style="cursor:pointer" onmousedown="viewRes(@replycomment.Id)" class="reply btn btn-primary">ответить</a>
                                                     </span>
                                                     <div style="display:none" id="responce @replycomment.Id">
                                                         <form asp-route-Receiver="@replycomment.Sender" asp-route-ParentId="@comment[i].Id" asp-route-ProfileLink="@Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2))" asp-action="AddComment" asp-controller="Profile">
@@ -154,7 +162,7 @@
                                                                 <input type="text" maxlength="500" asp-for="Text" class="form-control" />
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="submit" value="Отправить" class="btn btn-default" />
+                                                                <input type="submit" value="Отправить" class="btn btn-success" />
                                                             </div>
                                                         </form>
                                                     </div>

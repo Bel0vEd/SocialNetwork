@@ -1,9 +1,9 @@
 ﻿@model SocialNetwork.ViewModels.RegisterViewModel
 @{
     ViewBag.Title = "Регистрация";
-}
-<h2>Регистрация нового пользователя</h2>
-<form method="post" asp-controller="Account" asp-action="Register">
+} 
+<h2 class="white-front">Регистрация нового пользователя</h2>
+<form class="white-front" method="post" asp-controller="Account" asp-action="Register">
     <div asp-validation-summary="ModelOnly"></div>
     <div>
         <label asp-for="FirstName"></label><br />
