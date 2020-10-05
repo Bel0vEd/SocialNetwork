@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -58,6 +59,21 @@ namespace SocialNetwork.Controllers
             db.Comments.Add(comment);
             await db.SaveChangesAsync();
             return Redirect("Wall/" + comment.ProfileLink);
+        }
+        public IActionResult DeleteComment(int id)
+        {
+            Comment comment = db.Comments.Where(comment => comment.Id == id).FirstOrDefault();
+            int goo = comment.ProfileLink;
+            db.Comments.Remove(comment);
+            db.SaveChanges();
+            while (comment != null)
+            {
+                comment = db.Comments.Where(comment => comment.ParentId == id).FirstOrDefault();
+                if (comment != null)
+                    db.Comments.Remove(comment);
+                db.SaveChanges();
+            }
+            return Redirect("~/Profile/Wall/" + goo);
         }
     }
 }

@@ -10,19 +10,20 @@
             <h4>Стена пользователя @users.FirstName @users.SecondName</h4>
         }
     }
-    <form asp-route-ProfileLink="@Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2))" asp-action="AddComment" asp-controller="Profile">
-        <div class="form-group">
-            <label asp-for="Title" class="control-label">Заголовок</label>
-            <input type="text" maxlength="50" asp-for="Title" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Text" class="control-label">Текст комментария</label>
-            <input type="text" maxlength="1000" asp-for="Text" class="form-control" />
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Отправить" class="btn btn-success" />
-        </div>
-    </form>
+<form asp-route-ProfileLink="@Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2))" asp-action="AddComment" asp-controller="Profile">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+        <label asp-for="Title" class="control-label">Заголовок</label>
+        <input style="width: 200px; height:35px" type="text" maxlength="50" asp-for="Title" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="Text" class="control-label">Текст комментария</label> <br/>
+        <textarea name="Text" cols="50" rows="4" asp-for="Text" required></textarea>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Отправить</button>
+    </div>
+</form>
 </div>
 <div class="comments">
     <ul class="media-list">
@@ -74,20 +75,21 @@
                                     </div>
                                 </div>
                                 <div class="title-comments">@comment[i].Title</div>
-                                <div class="media-text text-white">@comment[i].Text</div>
+                                <div class="text-white">@Html.Raw(System.Web.HttpUtility.HtmlEncode(@comment[i].Text).Replace("\r\n", "<br />"))</div>
                                 <div class="footer-comment">
                                     <span class="comment-reply">
                                         <a style="cursor:pointer" onmousedown="viewRes(@comment[i].Id)" class="reply btn btn-primary">ответить</a>
                                     </span>
+                                    <a style="cursor:pointer" class="reply btn btn-danger" asp-route-id ="@comment[i].Id" asp-action="DeleteComment" asp-controller="Profile" >удалить</a>
                                     <div style="display:none" id="responce @comment[i].Id">
                                         <form class="white-front" asp-route-Receiver="@comment[i].Sender" asp-route-ParentId="@comment[i].Id" asp-route-ProfileLink="@Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2))" asp-action="AddComment" asp-controller="Profile">
                                             <div class="form-group">
                                                 <label asp-for="Title" class="control-label">Заголовок</label>
-                                                <input type="text" asp-for="Title" class="form-control" />
+                                                <input type="text" asp-for="Title" class="form-control" required />
                                             </div>
                                             <div class="form-group">
-                                                <label asp-for="Text" class="control-label">Текст комментария</label>
-                                                <input type="text" maxlength="500" asp-for="Text" class="form-control" />
+                                                <label asp-for="Text" class="control-label">Текст комментария</label><br />
+                                                <textarea name="Text" cols="50" rows="4" asp-for="Text" required></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <input type="submit" value="Отправить" class="btn btn-success" />
@@ -146,7 +148,7 @@
                                                 </div>
                                                 </div>
                                                 <div class="title-comments">@replycomment.Title</div>
-                                                <div class="media-text text-white">@replycomment.Text</div>
+                                                <div class="media-text text-white">@Html.Raw(System.Web.HttpUtility.HtmlEncode(replycomment.Text).Replace("\r\n", "<br />"))</div>
                                                 <div class="footer-comment">
                                                     <span class="comment-reply">
                                                         <a style="cursor:pointer" onmousedown="viewRes(@replycomment.Id)" class="reply btn btn-primary">ответить</a>
@@ -155,11 +157,11 @@
                                                         <form asp-route-Receiver="@replycomment.Sender" asp-route-ParentId="@comment[i].Id" asp-route-ProfileLink="@Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2))" asp-action="AddComment" asp-controller="Profile">
                                                             <div class="form-group">
                                                                 <label asp-for="Title" class="control-label">Заголовок</label>
-                                                                <input type="text" asp-for="Title" class="form-control" />
+                                                                <input type="text" asp-for="Title" class="form-control" required/>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label asp-for="Text" class="control-label">Текст комментария</label>
-                                                                <input type="text" maxlength="500" asp-for="Text" class="form-control" />
+                                                                <label asp-for="Text" class="control-label">Текст комментария</label><br />
+                                                                <textarea name="Text" cols="50" rows="4" asp-for="Text" required></textarea>
                                                             </div>
                                                             <div class="form-group">
                                                                 <input type="submit" value="Отправить" class="btn btn-success" />
