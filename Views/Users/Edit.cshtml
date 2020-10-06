@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Редактирование пользователя";
 }
-<form asp-action="Edit" asp-controller="Users" method="post" enctype="multipart/form-data">
+<form class="white-front" asp-action="Edit" asp-controller="Users" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <input type="hidden" asp-for="Id" />
@@ -24,6 +24,6 @@
         <input type="file" name="uploadedFile" accept="image/jpeg,image/png"/>
     </div>
     <div class="form-group">
-        <input type="submit" value="Сохранить" class="btn btn-outline-secondary" />
+        <input type="submit" value="Сохранить" class="btn btn-success" />
     </div>
 </form>

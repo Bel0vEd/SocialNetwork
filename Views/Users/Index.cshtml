@@ -12,7 +12,14 @@
     {
         {
 <tr>
-    <td><img class="media-object img-rounded" width="90" height="90" src="@user.Avatar" alt=""></td>
+    @if (user.Avatar == null)
+    {
+        <td><img class="media-object img-rounded" width="90" height="90" src="~/def.png" alt=""></td>
+    }
+    else
+    {
+        <td><img class="media-object img-rounded" width="90" height="90" src="@user.Avatar" alt=""></td>
+    }
     <td><a style="color:#bbfbfb" asp-route-id="@user.ProfileLink" asp-controller="Profile" asp-action="Wall">@user.FirstName</a></td>
     <td>@user.SecondName</td>
     <td>@user.Year</td>

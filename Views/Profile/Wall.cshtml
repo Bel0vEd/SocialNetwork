@@ -80,7 +80,10 @@
                                     <span class="comment-reply">
                                         <a style="cursor:pointer" onmousedown="viewRes(@comment[i].Id)" class="reply btn btn-primary">ответить</a>
                                     </span>
-                                    <a style="cursor:pointer" class="reply btn btn-danger" asp-route-id ="@comment[i].Id" asp-action="DeleteComment" asp-controller="Profile" >удалить</a>
+                                    @if (User.Identity.Name == users.UserName || comment[i].SenderProfileLink == (ViewData["Users"] as List<User>).Where(deleteid => deleteid.UserName == User.Identity.Name).FirstOrDefault().ProfileLink)
+                                    {
+                                        <a style="cursor:pointer" class="reply btn btn-danger" asp-route-id="@comment[i].Id" asp-action="DeleteComment" asp-controller="Profile">удалить</a>
+                                    }
                                     <div style="display:none" id="responce @comment[i].Id">
                                         <form class="white-front" asp-route-Receiver="@comment[i].Sender" asp-route-ParentId="@comment[i].Id" asp-route-ProfileLink="@Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2))" asp-action="AddComment" asp-controller="Profile">
                                             <div class="form-group">
@@ -153,11 +156,15 @@
                                                     <span class="comment-reply">
                                                         <a style="cursor:pointer" onmousedown="viewRes(@replycomment.Id)" class="reply btn btn-primary">ответить</a>
                                                     </span>
+                                                    @if (User.Identity.Name == users.UserName || replycomment.SenderProfileLink == (ViewData["Users"] as List<User>).Where(deleteid => deleteid.UserName == User.Identity.Name).FirstOrDefault().ProfileLink)
+                                                    {
+                                                    <a style="cursor:pointer" class="reply btn btn-danger" asp-route-id="@replycomment.Id" asp-action="DeleteComment" asp-controller="Profile">удалить</a>
+                                                    }
                                                     <div style="display:none" id="responce @replycomment.Id">
                                                         <form asp-route-Receiver="@replycomment.Sender" asp-route-ParentId="@comment[i].Id" asp-route-ProfileLink="@Convert.ToInt32(Url.ActionContext.RouteData.Values.Values.ElementAtOrDefault(2))" asp-action="AddComment" asp-controller="Profile">
                                                             <div class="form-group">
                                                                 <label asp-for="Title" class="control-label">Заголовок</label>
-                                                                <input type="text" asp-for="Title" class="form-control" required/>
+                                                                <input type="text" asp-for="Title" class="form-control" required />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label asp-for="Text" class="control-label">Текст комментария</label><br />
